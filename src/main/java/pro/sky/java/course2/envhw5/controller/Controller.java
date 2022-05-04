@@ -19,17 +19,18 @@ public class Controller {
 
     @GetMapping
     public String hello() {
-        return "Выберите необходимое действие: добавить, удалить или найти сотрудника в баззе данных";
+        return "Выберите необходимое действие: добавить, удалить или найти сотрудника в базе данных";
     }
 
     @GetMapping(path = "/addEmployee")
     public String addEmployee(@RequestParam(name = "lastName", required = false) String lastName, @RequestParam(name = "firstName", required = false) String firstName) {
         if (free() == 0) {
             throw new InternalServerError();
-        } else if (employeeService.addEmployee(lastName, firstName).equalsIgnoreCase("сотрудник уже добавлен в БД")) {
-            throw new BadRequest();
+        } else {
+            String k = employeeService.addEmployee(lastName, firstName);
+            if (k.equalsIgnoreCase("сотрудник уже добавлен в БД")) throw new BadRequest();
+            return k;
         }
-        return employeeService.addEmployee(lastName, firstName);
     }
 
     @GetMapping(path = "/deleteEmployee")
