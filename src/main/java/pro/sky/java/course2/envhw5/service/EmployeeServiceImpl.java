@@ -3,26 +3,22 @@ package pro.sky.java.course2.envhw5.service;
 import org.springframework.stereotype.Service;
 import pro.sky.java.course2.envhw5.Employee;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
-    public Employee[] employees = new Employee[10];
+    public List<Employee> employees = new ArrayList<>();
 
     @Override
     public String addEmployee(String lastName, String firstName) {
         Employee employee = new Employee(lastName, firstName);
         String s = null;
-        for (int i = 0; i < employees.length; i++) {
-            if (employees[i] == null) {
-                employees[i] = employee;
-                s = "Сотрудник " + lastName + ' ' + firstName + " успешно добавлен";
-                break;
-            }
-            if (employees[i] != null) {
-                if (employees[i].equals(employee)) {
-                    s = "сотрудник уже добавлен в БД";
-                    break;
-                }
-            }
+        if (employees.contains(employee)) {
+            s = "сотрудник уже добавлен в БД";
+        } else {
+            employees.add(employee);
+            s = "Сотрудник " + lastName + ' ' + firstName + " успешно добавлен";
         }
         return s;
     }
@@ -31,16 +27,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     public String deleteEmployee(String lastName, String firstName) {
         Employee employee = new Employee(lastName, firstName);
         String s = null;
-        for (int i = 0; i < employees.length; i++) {
-            if (employees[i] != null) {
-                if (employees[i].equals(employee)) {
-                    employees[i] = null;
-                    s = "Сотрудник " + lastName + ' ' + firstName + " успешно удалён";
-                    break;
-                }
-            } else {
-                s = "сотрудник не найден";
-            }
+        if (employees.contains(employee)) {
+            employees.remove(employee);
+            s = "Сотрудник " + lastName + ' ' + firstName + " успешно удалён";
+        } else {
+            s = "сотрудник не найден";
         }
         return s;
     }
@@ -49,27 +40,22 @@ public class EmployeeServiceImpl implements EmployeeService {
     public String findEmployee(String lastName, String firstName) {
         Employee employee = new Employee(lastName, firstName);
         String s = null;
-        for (int i = 0; i < employees.length; i++) {
-            if (employees[i] != null) {
-                if (employees[i].equals(employee)) {
-                    s = "Найден сотрудник " + lastName + ' ' + firstName;
-                    break;
-                }
-            } else {
-                s = "сотрудник не найден";
-            }
+        if (employees.contains(employee)) {
+            s = "Найден сотрудник " + lastName + ' ' + firstName;
+        } else {
+            s = "сотрудник не найден";
         }
+
         return s;
     }
 
     @Override
-    public int free() {
-        int i = 0;
-        for (int j = 0; j < employees.length; j++) {
-            if (employees[j] == null) {
-                i++;
-            }
-        }
-        return i;
+    public int sumEmployee() {
+        return employees.size();
+    }
+
+    @Override
+    public String printAllEmployee() {
+        return employees.toString();
     }
 }
