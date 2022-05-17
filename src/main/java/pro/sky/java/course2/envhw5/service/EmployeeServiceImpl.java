@@ -3,21 +3,22 @@ package pro.sky.java.course2.envhw5.service;
 import org.springframework.stereotype.Service;
 import pro.sky.java.course2.envhw5.Employee;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
-    public List<Employee> employees = new ArrayList<>();
+    public Map<String, Employee> employees = new HashMap<>();
 
     @Override
     public String addEmployee(String lastName, String firstName) {
+        String key = lastName + " " + firstName;
         Employee employee = new Employee(lastName, firstName);
         String s = null;
-        if (employees.contains(employee)) {
+        if (employees.containsKey(key)) {
             s = "сотрудник уже добавлен в БД";
         } else {
-            employees.add(employee);
+            employees.put(key, employee);
             s = "Сотрудник " + lastName + ' ' + firstName + " успешно добавлен";
         }
         return s;
@@ -25,11 +26,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public String deleteEmployee(String lastName, String firstName) {
+        String key = lastName + " " + firstName;
         Employee employee = new Employee(lastName, firstName);
         String s = null;
-        if (employees.contains(employee)) {
-            employees.remove(employee);
-            s = "Сотрудник " + lastName + ' ' + firstName + " успешно удалён";
+        if (employees.containsKey(key)) {
+            employees.remove(key, employee);
+            s = "Сотрудник " + key + " успешно удалён";
         } else {
             s = "сотрудник не найден";
         }
@@ -38,10 +40,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public String findEmployee(String lastName, String firstName) {
-        Employee employee = new Employee(lastName, firstName);
+        String key = lastName + " " + firstName;
         String s = null;
-        if (employees.contains(employee)) {
-            s = "Найден сотрудник " + lastName + ' ' + firstName;
+        if (employees.containsKey(key)) {
+            s = "Найден сотрудник " + key;
         } else {
             s = "сотрудник не найден";
         }
