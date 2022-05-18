@@ -7,5 +7,7 @@ public interface EmployeeService {
 
     String findEmployee(String lastName, String firstName);
 
-    int free();
+    int sumEmployee();
+
+    String printAllEmployee();
 }

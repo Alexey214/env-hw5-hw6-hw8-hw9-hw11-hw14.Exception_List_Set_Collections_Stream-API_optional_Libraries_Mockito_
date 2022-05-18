@@ -4,7 +4,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pro.sky.java.course2.envhw5.exception.BadRequest;
-import pro.sky.java.course2.envhw5.exception.InternalServerError;
 import pro.sky.java.course2.envhw5.exception.NotFound;
 import pro.sky.java.course2.envhw5.service.EmployeeService;
 
@@ -24,13 +23,10 @@ public class Controller {
 
     @GetMapping(path = "/addEmployee")
     public String addEmployee(@RequestParam(name = "lastName", required = false) String lastName, @RequestParam(name = "firstName", required = false) String firstName) {
-        if (free() == 0) {
-            throw new InternalServerError();
-        } else {
-            String k = employeeService.addEmployee(lastName, firstName);
-            if (k.equalsIgnoreCase("сотрудник уже добавлен в БД")) throw new BadRequest();
-            return k;
-        }
+        String k = employeeService.addEmployee(lastName, firstName);
+        if (k.equalsIgnoreCase("сотрудник уже добавлен в БД")) throw new BadRequest();
+        return k;
+
     }
 
     @GetMapping(path = "/deleteEmployee")
@@ -49,8 +45,13 @@ public class Controller {
         return employeeService.findEmployee(lastName, firstName);
     }
 
-    @GetMapping(path = "/free")
+    @GetMapping(path = "/sumEmployee")
     public int free() {
-        return employeeService.free();
+        return employeeService.sumEmployee();
+    }
+
+    @GetMapping(path = "/printAllEmployee")
+    public String printAllEmployee() {
+        return employeeService.printAllEmployee();
     }
 }
