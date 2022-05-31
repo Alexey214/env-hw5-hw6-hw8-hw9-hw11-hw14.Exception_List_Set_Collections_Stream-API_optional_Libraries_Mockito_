@@ -27,9 +27,12 @@ public class Controller {
                               @RequestParam(name = "salary", required = false) double salary,
                               @RequestParam(name = "department", required = false) int department) {
         String k = employeeService.addEmployee(lastName, firstName, salary, department);
-        if (k.equalsIgnoreCase("сотрудник уже добавлен в БД")) throw new BadRequest();
-        return k;
-
+        if (!k.equalsIgnoreCase("ошибка")
+                && !k.equalsIgnoreCase("сотрудник уже добавлен в БД")) {
+            return k;
+        } else {
+            throw new BadRequest();
+        }
     }
 
     @GetMapping(path = "/deleteEmployee")
@@ -37,10 +40,12 @@ public class Controller {
                                  @RequestParam(name = "firstName", required = false) String firstName,
                                  @RequestParam(name = "salary", required = false) double salary,
                                  @RequestParam(name = "department", required = false) int department) {
-        if (employeeService.findEmployee(lastName, firstName).equals("сотрудник не найден")) {
+        if (!employeeService.findEmployee(lastName, firstName).equals("ошибка")
+                && !employeeService.findEmployee(lastName, firstName).equals("сотрудник не найден")) {
+            return employeeService.deleteEmployee(lastName, firstName, salary, department);
+        } else {
             throw new NotFound();
         }
-        return employeeService.deleteEmployee(lastName, firstName, salary, department);
     }
 
     @GetMapping(path = "/findEmployee")
