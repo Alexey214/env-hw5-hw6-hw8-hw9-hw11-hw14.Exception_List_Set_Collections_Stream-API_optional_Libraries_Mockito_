@@ -1,4 +1,4 @@
-package pro.sky.java.course2.envhw5;
+package pro.sky.java.course2.envhw5.data;
 
 import java.util.Objects;
 
@@ -37,7 +37,7 @@ public class Employee {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        pro.sky.java.course2.envhw5.Employee employee = (pro.sky.java.course2.envhw5.Employee) o;
+        Employee employee = (Employee) o;
         return Objects.equals(lastName, employee.lastName) && Objects.equals(firstName, employee.firstName);
     }
 

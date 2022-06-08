@@ -1,12 +1,11 @@
-package pro.sky.java.course2.envhw5.service;
+package pro.sky.java.course2.envhw5.service.impl;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
-import pro.sky.java.course2.envhw5.Employee;
-import pro.sky.java.course2.envhw5.exception.NotFound;
+import pro.sky.java.course2.envhw5.data.Employee;
+import pro.sky.java.course2.envhw5.service.EmployeeService;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -15,10 +14,12 @@ public class EmployeeServiceImpl implements EmployeeService {
     public String checkName(String lastName, String firstName) {
         String key = null;
         if (!StringUtils.isEmpty(lastName)
+                && StringUtils.isAlpha(firstName)
+                && StringUtils.isAlpha(lastName)
                 && !StringUtils.isEmpty(firstName)
                 && StringUtils.equals(StringUtils.left(lastName, 1), StringUtils.left(lastName, 1).toUpperCase(Locale.ROOT))
                 && StringUtils.equals(StringUtils.left(firstName, 1), StringUtils.left(firstName, 1).toUpperCase(Locale.ROOT))) {
-            key = lastName + " " + firstName;
+            key = StringUtils.capitalize(lastName) + " " + StringUtils.capitalize(firstName);
         } else {
             key = "ошибка";
         }
@@ -74,45 +75,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public String printAllEmployee() {
-        return employees.toString();
+    public Map<String, Employee> getEmployees() {
+        return employees;
     }
 
-    @Override
-    public String maxSalaryInDep(int department) {
-        List<Employee> employeesList = new ArrayList<>(employees.values());
-        final String maxSalary = employeesList
-                .stream()
-                .filter(dep -> dep.getDepartment() == department)
-                .max(Comparator.comparingDouble(Employee::getSalary))
-                .orElseThrow(NotFound::new).toString();
-        return "Сотрудник с максимальной зарплатой отделе " + department + ", " + maxSalary;
-    }
-
-    @Override
-    public String minSalaryInDep(int department) {
-        List<Employee> employeesList = new ArrayList<>(employees.values());
-        final String minSalary = employeesList.stream()
-                .filter(dep -> dep.getDepartment() == department)
-                .min(Comparator.comparingDouble(Employee::getSalary))
-                .orElseThrow(NotFound::new).toString();
-        return "Сотрудник с минимальной зарплатой отделе " + department + ", " + minSalary;
-    }
-
-    @Override
-    public String printEmployeesInDep(int department) {
-        List<Employee> employeesList = new ArrayList<>(employees.values());
-        final String employeesInDep = employeesList.stream()
-                .filter(dep -> dep.getDepartment() == department)
-                .collect(Collectors.toList()).toString();
-        return employeesInDep;
-    }
-
-    @Override
-    public String printAllEmployees() {
-        List<Employee> employeesList = new ArrayList<>(employees.values());
-        final String allEmployees = employeesList.stream()
-                .collect(Collectors.toList()).toString();
-        return allEmployees;
-    }
 }
