@@ -18,4 +18,6 @@ public interface EmployeeService {
     String printEmployeesInDep(int department);
 
     String printAllEmployees();
+
+    String checkName(String lastName, String firstName);
 }
