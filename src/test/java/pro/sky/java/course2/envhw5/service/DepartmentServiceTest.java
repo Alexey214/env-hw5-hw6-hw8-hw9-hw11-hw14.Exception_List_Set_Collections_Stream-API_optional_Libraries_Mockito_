@@ -14,6 +14,8 @@ import pro.sky.java.course2.envhw5.exception.NotFound;
 import pro.sky.java.course2.envhw5.service.impl.DepartmentServiceImpl;
 import pro.sky.java.course2.envhw5.service.impl.EmployeeServiceImpl;
 
+import java.util.Arrays;
+
 import static pro.sky.java.course2.envhw5.constants.Constants.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -53,9 +55,13 @@ class DepartmentServiceTest {
     void printEmployeesInDep() {
         when(employeeServiceMock.getEmployees())
                 .thenReturn(DEFAULT_EMPLOYEE_MAP);
-        String result = out.printEmployeesInDep(DEFAULT_DEPARTMENT);
         String expected = "[" + DEFAULT_EMPLOYEE1.toString() + ", " + DEFAULT_EMPLOYEE2.toString() + "]";
-        assertEquals(expected, result);
+        char[] expected1 = expected.toCharArray();
+        Arrays.sort(expected1);
+        String actual = out.printEmployeesInDep(DEFAULT_DEPARTMENT);
+        char[] actual1 = actual.toCharArray();
+        Arrays.sort(actual1);
+        assertArrayEquals(expected1, actual1);
     }
 
     @Test
@@ -63,8 +69,12 @@ class DepartmentServiceTest {
         when(employeeServiceMock.getEmployees())
                 .thenReturn(DEFAULT_EMPLOYEE_MAP);
         String expected = "[" + DEFAULT_EMPLOYEE1.toString() + ", " + DEFAULT_EMPLOYEE2.toString() + ", " + DEFAULT_EMPLOYEE3.toString() + "]";
+        char[] expected1 = expected.toCharArray();
+        Arrays.sort(expected1);
         String actual = out.printAllEmployees();
-        assertEquals(expected, actual);
+        char[] actual1 = actual.toCharArray();
+        Arrays.sort(actual1);
+        assertArrayEquals(expected1, actual1);
     }
 
     @Test
