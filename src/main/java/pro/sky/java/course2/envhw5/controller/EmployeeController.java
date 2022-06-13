@@ -9,10 +9,10 @@ import pro.sky.java.course2.envhw5.service.EmployeeService;
 
 
 @RestController
-public class Controller {
+public class EmployeeController {
     private final EmployeeService employeeService;
 
-    public Controller(EmployeeService employeeService) {
+    public EmployeeController(EmployeeService employeeService) {
         this.employeeService = employeeService;
     }
 
@@ -62,23 +62,5 @@ public class Controller {
         return employeeService.sumEmployee();
     }
 
-    @GetMapping(path = "/departments/max-salary")
-    public String maxSalaryInDep(@RequestParam(name = "departmentId", required = false) int departmentId) {
-        return employeeService.maxSalaryInDep(departmentId);
-    }
 
-    @GetMapping(path = "/departments/min-salary")
-    public String minSalaryInDep(@RequestParam(name = "departmentId", required = false) int departmentId) {
-        return employeeService.minSalaryInDep(departmentId);
-    }
-
-    @GetMapping(path = "/departments/all")
-    public String printEmployeesInDep(@RequestParam(name = "departmentId", required = false) int departmentId) {
-        return employeeService.printEmployeesInDep(departmentId);
-    }
-
-    @GetMapping(path = "/printAllEmployee")
-    public String printAllEmployee() {
-        return employeeService.printAllEmployee();
-    }
 }

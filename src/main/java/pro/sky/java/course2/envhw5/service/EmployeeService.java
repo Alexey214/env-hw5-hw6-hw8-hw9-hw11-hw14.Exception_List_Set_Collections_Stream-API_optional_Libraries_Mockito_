@@ -1,5 +1,9 @@
 package pro.sky.java.course2.envhw5.service;
 
+import pro.sky.java.course2.envhw5.data.Employee;
+
+import java.util.Map;
+
 public interface EmployeeService {
     String addEmployee(String lastName, String firstName, double salary, int department);
 
@@ -9,15 +13,7 @@ public interface EmployeeService {
 
     int sumEmployee();
 
-    String printAllEmployee();
-
-    String maxSalaryInDep(int department);
-
-    String minSalaryInDep(int department);
-
-    String printEmployeesInDep(int department);
-
-    String printAllEmployees();
+    Map<String, Employee> getEmployees();
 
     String checkName(String lastName, String firstName);
 }
